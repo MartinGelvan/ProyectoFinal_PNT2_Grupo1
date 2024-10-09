@@ -1,4 +1,5 @@
 Gelvan Martin
 Rosario Begani
 Martina Begani
-Javier Nuñez..
+Javier Nuñez
+  -Instalacion de route  y generacion de dos vistas : https://chatgpt.com/share/67067796-a390-8006-8351-d707bf68d2ba
