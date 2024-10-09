@@ -10,10 +10,10 @@
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
+                            <router-link to="/" class="nav-link">Inicio</router-link>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
+                            <router-link to="/about" class="nav-link">Acerca de</router-link>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Link</a>
@@ -23,7 +23,7 @@
             </div>
         </nav>
         <div class="container-fluid mt-3">
-            <h1>Aplicación</h1>
+            
         </div>
     
 </template>
