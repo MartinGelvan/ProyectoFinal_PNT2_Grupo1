@@ -3,6 +3,7 @@
 <script setup>
 
 import NavInicio from './components/NavInicio.vue'
+
 </script>
 <!--
 <template>
@@ -16,7 +17,7 @@ import NavInicio from './components/NavInicio.vue'
 </template>-->
 <template>
   <div id="app">
-    <NavInicio></NavInicio>
+    <NavInicio></NavInicio> 
     <router-view></router-view>
      <!-- Aquí se mostrarán las vistas -->
   </div>

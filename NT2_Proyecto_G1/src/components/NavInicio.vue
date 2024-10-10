@@ -27,3 +27,11 @@
         </div>
     
 </template>
+
+<style>
+
+    #collapsibleNavbar{
+        justify-content: center;
+    }
+
+</style>

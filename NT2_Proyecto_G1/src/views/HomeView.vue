@@ -1,7 +1,21 @@
+
+<script setup>
+import CarouselInicio from '../components/CarouselInicio.vue';
+import TarjetasInicio from '../components/TarjetasInicio.vue';
+
+</script>
+
 <template>
-    <div>
-      <h1>Home Page</h1>
-      <p>Bienvenido a la página de inicio</p>
-    </div>
-  </template>
-  
+  <div>
+    <CarouselInicio></CarouselInicio>
+   
+    
+    <main>
+
+      <TarjetasInicio></TarjetasInicio>
+
+    </main>
+
+    <router-view></router-view>
+  </div>
+</template>
