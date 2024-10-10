@@ -18,8 +18,10 @@ import NavInicio from './components/NavInicio.vue'
 <template>
   <div id="app">
     <NavInicio></NavInicio> 
-    <router-view></router-view>
+    
+  
      <!-- Aquí se mostrarán las vistas -->
+     <router-view></router-view>
   </div>
 </template>
 
