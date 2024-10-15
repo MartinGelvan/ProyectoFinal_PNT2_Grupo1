@@ -18,7 +18,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Link</a>
                         </li>
+                        <button @click="logout">Logout</button>
                     </ul>
+
+                    <p v-if="email">{{ email }}</p>
+
                 </div>
             </div>
         </nav>
@@ -27,6 +31,26 @@
         </div>
     
 </template>
+
+<script>
+    export default {
+
+        data() {
+        return {
+            email: '',
+        };
+    },
+    created() {
+        this.email = localStorage.getItem('email'); // Obtener el email al crear el componente
+    },
+  methods: {
+    logout() {
+      localStorage.removeItem('token');
+      this.$router.push('/login');
+    },
+  },
+};
+</script>
 
 <style>
 
