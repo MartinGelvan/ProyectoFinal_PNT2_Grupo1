@@ -31,6 +31,12 @@ import TarjetasInicio from '../components/TarjetasInicio.vue';
   
 </template>
 
+<script>
+export default {
+  name: 'Home',
+};
+</script>
+
 <style>
   #primeraSeccionTarjetas{
     background-color: rgb(165, 31, 165);

@@ -1,58 +1,96 @@
 <template>
-    <div>
-      <h2>Login</h2>
-      <form @submit.prevent="login">
-        <div>
-          <label for="email">Email:</label>
-          <input type="email" v-model="email" required />
-        </div>
-        <div>
-          <label for="password">Password:</label>
-          <input type="password" v-model="password" required />
-        </div>
-        <button type="submit">Login</button>
-        <p v-if="error">{{ error }}</p>
-      </form>
+  <div>
+    <div id="titulo-InicioSesion">
+      <h2>Iniciar Sesión</h2>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        email: '',
-        password: '',
-        error: null,
-      };
-    },
-    methods: {
-      async login() {
-        try {
-          // Simular usuarios válidos
-      const validUsers = [
-        { email: 'user@example.com', password: 'password' },
-        { email: 'admin@example.com', password: 'admin' },
-      ];
+   
+    <form @submit.prevent="handleLogin">
+      <div id="Form-InicioSesion">
+        <input type="text" v-model="username" placeholder="Usuario" required />
+      <input type="password" v-model="password" placeholder="Contraseña" required />
+      <div id="boton-InicioSesion"><button type="submit" class="btn btn-primary">Iniciar Sesión</button></div>
+      
+      </div>
+      
+    </form>
+    <div id="mensajeError">
+        <ErrorMessage v-if="errorMessage" :message="errorMessage" />
+    </div>
+    
+  </div>
+</template>
 
-      // Comprobar si las credenciales son válidas
-      const user = validUsers.find(
-        (u) => u.email === this.email && u.password === this.password
-      );
+<style>
+  #titulo-InicioSesion{
+    text-align: center;
+    color: violet;
+    position: relative;
+    top: 150px;
 
-      if (user) {
-        // Almacenar token simulado
-        localStorage.setItem('token', 'fake-jwt-token');
-        this.$router.push('/'); // Redirigir al home
+  }
+
+  #Form-InicioSesion{
+    background-color: violet;
+    height: 500px;
+    width: 600px;
+    position: relative;
+    top: 100px;
+    left: 500px;
+    border-radius: 50px;
+  }
+
+  input{
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    margin: 60px;
+    position: relative;
+    top: 150px;
+    left: 60px;
+    height: 50px;
+    width: 350px;
+  }
+
+  #boton-InicioSesion{
+    position: relative;
+    top: 150px;
+    left: 230px;
+  }
+  #mensajeError{
+    position: relative;
+    left: 620px;
+    top: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 25px;
+    width: 400px;
+  }
+
+</style>
+
+<script>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import ErrorMessage from '../components/ErrorMessage.vue';
+
+export default {
+  components: { ErrorMessage },
+  setup(_, { emit }) { // Obtén emit del segundo argumento
+    const username = ref('');
+    const password = ref('');
+    const errorMessage = ref('');
+    const router = useRouter();
+
+    const handleLogin = () => {
+      if (username.value === 'admin' && password.value === '1234') {
+        errorMessage.value = '';
+        emit('login-success', username.value); // Emitir el evento aquí
+        router.push('/'); // Redirigir aquí
       } else {
-        this.error = 'Credenciales incorrectas';
+        errorMessage.value = 'Usuario o contraseña incorrectos';
       }
-  
-       
-        } catch (error) {
-          this.error = error.message;
-        }
-      },
-    },
-  };
-  </script>
-  
+    };
+
+    return { username, password, handleLogin, errorMessage };
+  },
+};
+</script>
