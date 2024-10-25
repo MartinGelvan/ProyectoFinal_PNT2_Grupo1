@@ -1,36 +1,63 @@
 <template>
   <div id="app">
-    <Login v-if="!inicioSesion.loggedIn" @login-success="handleLoginSuccess" />
-
-    <div v-if="inicioSesion.loggedIn" :username="inicioSesion.userName" @logout="handleLogout" >
-
-      <NavInicio />
-     <router-view />
-    </div>
+    <NavInicio v-if="isAuthenticated" />
+    <router-view v-if="isAuthenticated" /> <!-- Solo renderiza si está autenticado -->
     
+    <Welcome 
+      v-if="!isAuthenticated && !showLogin && !showRegister" 
+      @clickLogin="showLogin = true" 
+      @clickRegister="showRegister = true" 
+    />
+    <Login 
+      v-if="showLogin" 
+      @closeLogin="showLogin = false" 
+      @loginSuccess="handleLoginSuccess"
+    />
+    <Register 
+      v-if="showRegister" 
+      @closeRegister="showRegister = false" 
+      @registerSuccess="handleRegisterSuccess"
+    />
   </div>
 </template>
 
 <script>
-import { useLoginStore } from 'C:/Users/Windows/Desktop/Carrera Analista de Sistemas/PNT2/ProyectoFinal_PNT2_Grupo1/NT2_Proyecto_G1/src/stores/LoginStore.js'; // Asegúrate de usar la ruta correcta
-import Login from './views/Login.vue';
+import { computed, ref } from 'vue';
+import { useUserStore } from './stores/userStore.js';
 import NavInicio from './components/NavInicio.vue';
+import Welcome from './components/Welcome.vue';
+import Login from './components/Login.vue';
+import Register from './components/Register.vue';
 
 export default {
-  components: { Login, NavInicio },
+  components: { NavInicio, Welcome, Login, Register },
   setup() {
-    const inicioSesion = useLoginStore();
+    const userStore = useUserStore();
+    const isAuthenticated = computed(() => userStore.isAuthenticated);
+    const showLogin = ref(false);
+    const showRegister = ref(false);
 
-    const handleLoginSuccess = (user) => {
-      inicioSesion.userName = user; 
-      inicioSesion.loggedIn = true; 
+    const handleLoginSuccess = () => {
+      showLogin.value = false; // Cierra el Login
+      userStore.isAuthenticated = true; // Asegúrate de que se actualice el estado
     };
 
-    const handleLogout = () => {
-      inicioSesion.logout(); 
+    const handleRegisterSuccess = () => {
+      showRegister.value = false; // Cierra el Register
+      userStore.isAuthenticated = true; // Asegúrate de que se actualice el estado
     };
 
-    return { inicioSesion, handleLoginSuccess, handleLogout };
+    return { 
+      isAuthenticated, 
+      showLogin, 
+      showRegister, 
+      handleLoginSuccess, 
+      handleRegisterSuccess 
+    };
   },
 };
 </script>
+
+<style>
+/* Añade aquí tus estilos globales */
+</style>

@@ -1,41 +1,61 @@
-// src/router/index.js
+// router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
-
-// Importa los componentes que usarás como vistas
+import Welcome from '../components/Welcome.vue';
+import Login from '../components/Login.vue';
+import Register from '../components/Register.vue';
 import HomeView from '../views/HomeView.vue';
 import AboutView from '../views/AboutView.vue';
-import Login from '../views/Login.vue';
+import ReserveView from '../views/ReserveView.vue';
+import { useUserStore } from '../stores/userStore.js';
 
-// Definimos las rutas
 const routes = [
   {
+    path: '/',
+    name: 'Welcome',
+    component: Welcome,
+  },
+  {
     path: '/login',
+    name: 'Login',
     component: Login,
   },
   {
-    path: '/',
+    path: '/register',
+    name: 'Register',
+    component: Register,
+  },
+  {
+    path: '/home',
     name: 'Home',
-    component: HomeView
+    component: HomeView,
+    meta: { requiresAuth: true },
   },
   {
     path: '/about',
     name: 'About',
-    component: AboutView
-  }
+    component: AboutView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/reserve',
+    name: 'Reserve',
+    component: ReserveView,
+    meta: { requiresAuth: true },
+  },
 ];
 
-// Crear una instancia del router
 const router = createRouter({
-  history: createWebHistory(),  // Usa el modo de historial de navegación del navegador
-  routes                         // Configuración de las rutas
+  history: createWebHistory(),
+  routes,
 });
 
+// Guardias de navegación
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!localStorage.getItem('token');
-  if (to.meta.requiresAuth && !isAuthenticated) {
-    next('/login');
+  const userStore = useUserStore();
+  if (to.matched.some(record => record.meta.requiresAuth) && !userStore.isAuthenticated) {
+    next({ name: 'Login' }); // Redirige a Login si no está autenticado
   } else {
-    next();
+    next(); // Permite el acceso a la ruta
   }
 });
 

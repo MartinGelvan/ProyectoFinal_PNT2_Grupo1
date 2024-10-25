@@ -8,7 +8,10 @@
       <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <router-link to="/" class="nav-link">Inicio</router-link>
+            <router-link to="/home" class="nav-link">Inicio</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/reserve" class="nav-link">Reservar Vuelo</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/about" class="nav-link">Acerca de</router-link>
@@ -17,13 +20,12 @@
             <a class="nav-link" href="#">Link</a>
           </li>
 
-          
-          <li class="nav-item" v-if="inicioSesion.loggedIn">
+          <li class="nav-item" v-if="isAuthenticated">
             <button class="nav-link" @click="logout">Cerrar Sesión</button>
           </li>
         </ul>
-        <div id="bienvenido" v-if="inicioSesion.loggedIn">
-          <h5>Bienvenido {{ inicioSesion.userName }}</h5>
+        <div id="bienvenido" v-if="isAuthenticated">
+          <h5>Bienvenido {{ userName }}</h5>
         </div>
       </div>
     </div>
@@ -32,18 +34,21 @@
 </template>
 
 <script>
-import { useLoginStore } from 'C:/Users/Windows/Desktop/Carrera Analista de Sistemas/PNT2/ProyectoFinal_PNT2_Grupo1/NT2_Proyecto_G1/src/stores/LoginStore.js';
 import { computed } from 'vue';
+import { useUserStore } from '../stores/userStore'; // Asegúrate de que la ruta sea correcta
 
 export default {
   setup() {
-    const inicioSesion = useLoginStore();
+    const userStore = useUserStore();
+
+    const isAuthenticated = computed(() => userStore.isAuthenticated);
+    const userName = computed(() => userStore.user?.username); // Asume que el nombre de usuario está en user
 
     const logout = () => {
-      inicioSesion.logout();
+      userStore.logout();
     };
 
-    return { inicioSesion, logout };
+    return { isAuthenticated, userName, logout };
   },
 };
 </script>
